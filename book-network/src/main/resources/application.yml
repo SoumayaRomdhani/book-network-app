@@ -4,6 +4,11 @@ spring:
   servlet:
     multipart:
       max-file-size: 50MB
+  thymeleaf:
+    prefix: classpath:/templates/  # Path where your Thymeleaf templates are stored
+    suffix: .html                  # File extension for Thymeleaf templates
+    mode: HTML                     # Parsing mode
+    cache: false                   # Disable template caching during development
 springdoc:
   default-produces-media-type: application/json
 server:
