@@ -1,6 +1,5 @@
 package com.soumaya.book_network.user;
 
-
 import com.soumaya.book_network.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,16 +27,12 @@ import static jakarta.persistence.FetchType.EAGER;
 @Builder
 @AllArgsConstructor
 @Entity
-
-@Table(name= "user")
+@Table(name= "_user")
 @EntityListeners(AuditingEntityListener.class)
-
-
-
 public class User implements UserDetails, Principal {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String firstname;
     private String lastname;
@@ -58,8 +52,6 @@ public class User implements UserDetails, Principal {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
-
-
 
     @Override
     public String getName() {
@@ -108,3 +100,4 @@ public class User implements UserDetails, Principal {
         return getFirstname() + " " + getLastname();
     }
 }
+
