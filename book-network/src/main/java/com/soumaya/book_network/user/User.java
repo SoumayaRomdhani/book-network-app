@@ -2,10 +2,7 @@ package com.soumaya.book_network.user;
 
 import com.soumaya.book_network.role.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,6 +23,7 @@ import static jakarta.persistence.FetchType.EAGER;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name= "_user")
 @EntityListeners(AuditingEntityListener.class)
@@ -83,7 +81,7 @@ public class User implements UserDetails, Principal {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !UserDetails.super.isAccountNonLocked();
+        return !accountLocked;
     }
 
     @Override
