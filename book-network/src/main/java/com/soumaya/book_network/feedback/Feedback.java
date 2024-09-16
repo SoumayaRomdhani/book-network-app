@@ -1,4 +1,5 @@
-package com.soumaya.book_network.book;
+package com.soumaya.book_network.feedback;
+
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -9,21 +10,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Book {
-
+public class Feedback {
     @Id
     @GeneratedValue
     private Integer id;
-    private String title;
-    private String authorName;
-    private String isbn;
-    private String synopsis;
-    private String bookCover;
-    private boolean archived;
-    private boolean shareable;
+    private Double note;//1-5 stars
+    private String comment ;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -40,5 +34,4 @@ public class Book {
     @LastModifiedBy
     @Column(insertable = false)
     private Integer lastModifiedBy;
-
 }
