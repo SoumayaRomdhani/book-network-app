@@ -2,6 +2,7 @@ package com.soumaya.book_network.book;
 
 
 import com.soumaya.book_network.common.PageResponse;
+import com.soumaya.book_network.exception.OperationNotPermittedException;
 import com.soumaya.book_network.history.BookTransactionHistory;
 import com.soumaya.book_network.history.BookTransactionHistoryRepository;
 import com.soumaya.book_network.user.User;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Objects;
 
 
 import static com.soumaya.book_network.book.BookSpecification.withOwnerId;
@@ -111,5 +113,18 @@ public class BookService {
                 allBorrowedBooks.isFirst(),
                 allBorrowedBooks.isLast()
         );
+    }
+
+    public Integer updateShareableStatus(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with the ID :: " + bookId));
+        User user = ((User) connectedUser.getPrincipal());
+        if(!Objects.equals(book.getOwner(), user.getId())){
+            //throw an exception that is not provided by java or pring boot
+            throw new OperationNotPermittedException("You cannot update books shareable status");
+        }
+        book.setShareable(!book.isShareable());
+        bookRepository.save(book);
+        return bookId;
     }
 }
