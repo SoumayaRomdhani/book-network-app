@@ -1,5 +1,6 @@
 package com.soumaya.book_network.feedback;
 
+import com.soumaya.book_network.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,15 @@ public class FeedbackController {
             Authentication connectedUser
     ) {
         return ResponseEntity.ok(service.save(request, connectedUser));
+    }
+
+    @GetMapping("/book/{book-id}")
+    public ResponseEntity<PageResponse<FeedbackResponse>> findAllFeedbacksByBook(
+            @PathVariable("book-id") Integer bookId,
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(service.findAllFeedbacksByBook(bookId, page, size, connectedUser));
     }
 }

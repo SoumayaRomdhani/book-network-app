@@ -8,4 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer>{
 
+    @Query("""
+            SELECT feedback
+            FROM Feedback  feedback
+            WHERE feedback.book.id = :bookId
+""")
+    Page<Feedback> findAllByBookId(Integer bookId, Pageable pageable);
 }
