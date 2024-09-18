@@ -1,12 +1,11 @@
 package com.soumaya.book_network.history;
 
-import com.soumaya.book_network.book.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BookTransactionHistoryRepository extends JpaRepository<BookTransactionHistory, Integer> {
@@ -26,7 +25,7 @@ public interface BookTransactionHistoryRepository extends JpaRepository<BookTran
 
 
     @Query("""
-            SELECT 
+            SELECT
             (COUNT(*) > 0) AS isBorrowed
             FROM BookTransactionHistory bookTransactionHistory
             WHERE bookTransactionHistory.user.id = :userId
@@ -42,7 +41,7 @@ public interface BookTransactionHistoryRepository extends JpaRepository<BookTran
             WHERE transaction.user.id = :userId
             AND transaction.book.id = :bookId
             AND transaction.returned = false
-            AND transaction.returnedApproved = false
+            AND transaction.returnApproved = false
             """)
     Optional<BookTransactionHistory> findByBookIdAndUserId(Integer bookId, Integer userId);
 
@@ -53,7 +52,7 @@ public interface BookTransactionHistoryRepository extends JpaRepository<BookTran
             WHERE transaction.book.owner.id = :userId
             AND transaction.book.id = :bookId
             AND transaction.returned = true
-            AND transaction.returnedApproved = false
+            AND transaction.returnApproved = false
             """)
-    Optional<BookTransactionHistory>findByBookIdAndOwnerId(Integer bookId, Integer id);
+    Optional<BookTransactionHistory>findByBookIdAndOwnerId(Integer bookId, Integer userId);
 }
