@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { BookRoutingModule } from './book-routing.module';
 import { MainComponent } from './pages/main/main.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 
 @NgModule({
   declarations: [
-    MainComponent
+    MainComponent,
+    MenuComponent
   ],
   imports: [
     CommonModule,
