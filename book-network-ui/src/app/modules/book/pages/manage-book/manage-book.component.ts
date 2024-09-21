@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   templateUrl: './manage-book.component.html',
   styleUrl: './manage-book.component.scss'
 })
-export class ManageBookComponent {
+export class ManageBookComponent implements OnInit {
 
   errorMsg: Array<string> = [];
   selectedPicture: string | undefined;
@@ -25,6 +25,27 @@ export class ManageBookComponent {
       private router: Router,
       private activatedRoute: ActivatedRoute
     ) {
+    }
+
+  ngOnInit(): void {
+      const bookId = this.activatedRoute.snapshot.params['bookId'];
+      if (bookId) {
+        this.bookService.findBookById({
+          'book-id': bookId
+        }).subscribe({
+          next: (book) => {
+           this.bookRequest = {
+             id: book.id,
+             title: book.title as string,
+             authorName: book.authorName as string,
+             isbn: book.isbn as string,
+             synopsis: book.synopsis as string,
+             shareable: book.shareable
+           };
+           this.selectedPicture='data:image/jpg;base64,' + book.cover;
+          }
+        });
+      }
     }
 
 
